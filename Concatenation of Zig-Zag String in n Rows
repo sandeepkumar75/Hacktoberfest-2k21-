@@ -1,0 +1,89 @@
+/*
+
+Given a string and number of rows ‘n’. Print the string formed by concatenating n rows when the input string is written in row-wise Zig-Zag fashion.
+
+Example 1:
+
+Input: 
+str = "ABCDEFGH"
+n = 2
+Output: "ACEGBDFH"
+Explanation: 
+Let us write input string in 
+Zig-Zag fashion in 2 rows.
+A   C   E   G  
+  B   D   F   H
+Now concatenate the two rows and ignore 
+spaces in every row. We get "ACEGBDFH"
+
+Example 2:
+
+Input: 
+str = "GEEKSFORGEEKS"
+n = 3
+Output: GSGSEKFREKEOE
+Explanation: 
+Let us write input string in 
+Zig-Zag fashion in 3 rows.
+G       S       G       S
+  E   K   F   R   E   K
+    E       O       E
+Now concatenate the two rows and ignore spaces
+in every row. We get "GSGSEKFREKEOE"
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    string convert(string s, int n) {
+        //code
+         if(n == 1)
+            return s;
+        map<int,string> mp;
+        string res = "";
+        for(int i = 0; i < n ; i ++){
+            mp[i] = "";
+        }
+        int i = 0;
+        int j = 0;
+        while(i < s.length()){
+            while(j <= n - 1 and i < s.length()){
+                string t = mp[j];
+                t += s[i];
+                mp[j] = t;
+                if(j == n - 1) break;
+                j++;i++;
+            }
+            j--;i++;
+            while(j >= 0 and i < s.length()){
+                string t = mp[j];
+                t += s[i];
+                mp[j] = t;
+                if(j == 0) break;
+                j--;i++;
+            }
+            j++;i++;
+        }
+        for(auto i : mp){
+            res += i.second;
+        }
+        return res;
+    }
+};
+
+int main()
+{
+    int t;
+    cin>>t;
+    while (t--){
+        string str;
+        cin>>str;
+        int n;
+        cin>>n;
+        Solution ob;
+        cout<<ob.convert(str, n)<<endl;
+    }
+    return 0;
+}
